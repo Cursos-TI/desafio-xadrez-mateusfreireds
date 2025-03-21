@@ -4,47 +4,68 @@
 #define MOVIMENTOS_TORRE 5
 #define MOVIMENTOS_BISPO 5
 #define MOVIMENTOS_RAINHA 8
-#define MOVIMENTOS_CAVALO_BAIXO 2
-#define MOVIMENTOS_CAVALO_ESQUERDA 1
+#define MOVIMENTOS_CAVALO_VERTICAL 2
+#define MOVIMENTOS_CAVALO_HORIZONTAL 1
 
+// Funções recursivas para movimento das peças
+void movimentoTorre(int movimentos) {
+    // Caso base: quando não há mais movimentos
+    if (movimentos <= 0) return;
+    
+    printf("Direita\n");
+    // Chamada recursiva com decremento
+    movimentoTorre(movimentos - 1);
+}
+
+void movimentoBispo(int vertical, int horizontal, int limite) {
+    // Caso base: quando atingir o limite de movimentos
+    if (vertical >= limite) return;
+    
+    printf("Cima, Direita\n");
+    // Chamada recursiva incrementando a posição
+    movimentoBispo(vertical + 1, horizontal + 1, limite);
+}
+
+void movimentoRainha(int movimentos) {
+    // Caso base: quando não há mais movimentos
+    if (movimentos <= 0) return;
+    
+    printf("Esquerda\n");
+    // Chamada recursiva com decremento
+    movimentoRainha(movimentos - 1);
+}
+
+void movimentoCavalo(int maxVertical, int maxHorizontal) {
+    // Loop externo para movimento vertical
+    for (int vertical = 0; vertical < maxVertical; vertical++) {
+        // Movimento para cima
+        printf("Cima\n");
+        
+        // Loop interno para movimento horizontal quando atingir a altura desejada
+        if (vertical == maxVertical - 1) {
+            for (int horizontal = 0; horizontal < maxHorizontal; horizontal++) {
+                printf("Direita\n");
+            }
+        }
+    }
+}
 
 int main() {
-    // Simulação do movimento da Torre 
-    printf("\n---------- Movimento da Torre ----------n");
-    for (int i = 0; i <= MOVIMENTOS_TORRE; i++) {
-        printf("Direita\n");
-    }
+    // Simulação do movimento da Torre (recursivo)
+    printf("\n---------- Movimento da Torre ----------\n");
+    movimentoTorre(MOVIMENTOS_TORRE);
 
-    // Simulação do movimento do Bispo 
-    printf("\n---------- Movimento do Bispo ----------n");
-    int movimentos_bispo = 0;
-    while (movimentos_bispo <= MOVIMENTOS_BISPO) {
-        printf("Cima, Direita\n");
-        movimentos_bispo++;
-    }
+    // Simulação do movimento do Bispo (recursivo com dois parâmetros)
+    printf("\n---------- Movimento do Bispo ----------\n");
+    movimentoBispo(0, 0, MOVIMENTOS_BISPO);
 
-    // Simulação do movimento da Rainha
-    // apesar de no xadrez ser impossível movimentar-se 8 vezes para qualquer direção visto que 
-    // o tabuleiro é 8x8.
-    printf("\n---------- Movimento da Rainha ----------n");
-    int movimentos_rainha = 0;
-    do {
-        printf("Esquerda\n");
-        movimentos_rainha++;
-    } while (movimentos_rainha <= MOVIMENTOS_RAINHA);
+    // Simulação do movimento da Rainha (recursivo)
+    printf("\n---------- Movimento da Rainha ----------\n");
+    movimentoRainha(MOVIMENTOS_RAINHA);
 
-    // Simulação do movimento do Cavalo
+    // Simulação do movimento do Cavalo (loops aninhados)
     printf("\n---------- Movimento do Cavalo ----------\n");
-    // Loop externo para movimento para baixo
-    for (int vertical = 0; vertical < MOVIMENTOS_CAVALO_BAIXO; vertical++) {
-        printf("Baixo\n");
-    
-        // Loop interno para movimento para esquerda
-        int horizontal = 0;
-        while (horizontal < MOVIMENTOS_CAVALO_ESQUERDA && vertical == 1) {
-            printf("Esquerda\n");
-            horizontal++;
-    }}
+    movimentoCavalo(MOVIMENTOS_CAVALO_VERTICAL, MOVIMENTOS_CAVALO_HORIZONTAL);
 
     return 0;
 }
